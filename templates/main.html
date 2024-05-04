@@ -36,8 +36,19 @@
     </style>
 </head>
 <body>
-    {% include 'navbar.html' %}
 
+    {% include 'navbar.html' %}
+    {% if messages %}
+
+    <ul class="message">
+        {% for message in messages %}
+
+            <li>{{message}}</li>
+
+        {% endfor %}
+    </ul>
+
+    {% endif %}
 
     {% block content%}
 

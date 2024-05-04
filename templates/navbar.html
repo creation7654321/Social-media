@@ -13,3 +13,10 @@
         </ul>
     </div>
 </div>
+{% if request.user.is_authenticated %}
+<a href="{% url 'logout' %}">LOGOUT</a>
+
+{% else %}
+<a href="{% url 'login' %}">LOGIN</a>
+
+{% endif %}
