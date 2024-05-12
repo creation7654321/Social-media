@@ -14,9 +14,15 @@
     </div>
 </div>
 {% if request.user.is_authenticated %}
+    <a href="{% url 'profile' request.user.id %}"><p>{{request.user}}</p></a>
+{% endif %}
+{% if request.user.is_authenticated %}
 <a href="{% url 'logout' %}">LOGOUT</a>
 
 {% else %}
 <a href="{% url 'login' %}">LOGIN</a>
 
 {% endif %}
+<form method="GET" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search...">
+</form>

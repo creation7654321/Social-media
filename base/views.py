@@ -6,10 +6,18 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
-    posts = Post.objects.all()
+    
+    # posts = Post.objects.all()
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+
+    posts = Post.objects.filter( Q(user__username__icontains =q) |
+                                Q(title__icontains = q)
+                                )
     context = {'posts': posts}
     return render(request, 'home.html', context)
 
@@ -112,3 +120,12 @@ def registerPage(request):
         messages.error(request, 'An error occured during registration')
 
     return render(request, 'login_register.html',{'form':form})
+
+
+def profilePage(request, pk):
+    
+    user = User.objects.get(id=pk)
+    posts = user.post_set.all()
+    context = {'posts': posts, 'user':user}
+    return render(request, 'profile.html', context)
+
